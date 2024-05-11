@@ -9,6 +9,7 @@ PLAYERS_ENDPOINT = "players"
 LEAGUES_ENDPOINT = "leagues/"
 CLANS_ENDPOINT = "clans"
 LOCATION_ENDPOINT = "locations"
+
 final_url = None
 
 headers = {
@@ -24,14 +25,14 @@ def get_player(player_tag: str):
     return data
 
 @app.get("/coc-api/clans/{clan_tag}")
-def get_player(clan_tag: str):
+def get_clan(clan_tag: str):
     final_url = f'{BASE_URL}/clans/%23{clan_tag}'
     response = requests.get(final_url, headers=headers)
     data = response.json()
     return data
 
 @app.get("/coc-api/locations/{location_id}/rankings/players")
-def get_player(location_id: str):
+def get_location_ranking_list(location_id: str):
     final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/rankings/players'
     response = requests.get(final_url, headers=headers)
     data = response.json()
