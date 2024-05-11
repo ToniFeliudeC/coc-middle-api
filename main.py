@@ -1,8 +1,19 @@
 from fastapi import FastAPI
 import requests
 from api_key import key
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 BASE_URL = "https://api.clashofclans.com/v1"
 PLAYERS_ENDPOINT = "players"
@@ -16,6 +27,10 @@ headers = {
     "Accept" : "application/json",
     "Authorization" : "Bearer " + key
 }
+
+@app.get("/")
+def get_root():
+    return "<p>It works</p>"
 
 @app.get("/coc-api/players/{player_tag}")
 def get_player(player_tag: str):
