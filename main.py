@@ -23,10 +23,14 @@ LOCATION_ENDPOINT = "locations"
 
 final_url = None
 
-headers = {
+HEADERS = {
     "Accept" : "application/json",
     "Authorization" : "Bearer " + key
 }
+
+def make_request(url: str) -> dict:
+    response = requests.get(url, headers=HEADERS)
+    return response.json()
 
 @app.get("/")
 def get_root():
@@ -35,20 +39,14 @@ def get_root():
 @app.get("/coc-api/players/{player_tag}")
 def get_player(player_tag: str):
     final_url = f'{BASE_URL}/{PLAYERS_ENDPOINT}/%23{player_tag}'
-    response = requests.get(final_url, headers=headers)
-    data = response.json()
-    return data
+    return make_request(final_url)
 
 @app.get("/coc-api/clans/{clan_tag}")
 def get_clan(clan_tag: str):
     final_url = f'{BASE_URL}/clans/%23{clan_tag}'
-    response = requests.get(final_url, headers=headers)
-    data = response.json()
-    return data
+    return make_request(final_url)
 
 @app.get("/coc-api/locations/{location_id}/rankings/players")
 def get_location_ranking_list(location_id: str):
     final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/rankings/players'
-    response = requests.get(final_url, headers=headers)
-    data = response.json()
-    return data
+    return make_request(final_url)
