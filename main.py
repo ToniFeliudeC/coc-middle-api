@@ -17,9 +17,10 @@ app.add_middleware(
 
 BASE_URL = "https://api.clashofclans.com/v1"
 PLAYERS_ENDPOINT = "players"
-LEAGUES_ENDPOINT = "leagues/"
+LEAGUES_ENDPOINT = "leagues"
 CLANS_ENDPOINT = "clans"
 LOCATION_ENDPOINT = "locations"
+RANKINGS_ENDPOINT= "rankings"
 
 final_url = None
 
@@ -28,7 +29,7 @@ HEADERS = {
     "Authorization" : "Bearer " + key
 }
 
-def make_request(url: str) -> dict:
+def make_request(url: str):
     response = requests.get(url, headers=HEADERS)
     return response.json()
 
@@ -47,6 +48,6 @@ def get_clan(clan_tag: str):
     return make_request(final_url)
 
 @app.get("/coc-api/locations/{location_id}/rankings/players")
-def get_location_ranking_list(location_id: str):
-    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/rankings/players'
+def get_rankings_players_by_location(location_id: str):
+    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}'
     return make_request(final_url)
