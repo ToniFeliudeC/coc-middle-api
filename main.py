@@ -47,6 +47,13 @@ def get_clan(clan_tag: str):
     final_url = f'{BASE_URL}/{CLANS_ENDPOINT}/%23{clan_tag}'
     return make_request(final_url)
 
+@app.get("/coc-api/locations")
+def get_locations():
+    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}'
+    response = make_request(final_url)
+    locations = response['items']
+    return locations
+        
 @app.get("/coc-api/locations/{location_id}/rankings/players")
 def get_rankings_players_by_location(location_id: str):
     final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}'
