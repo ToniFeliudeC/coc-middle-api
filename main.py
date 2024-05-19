@@ -57,4 +57,6 @@ def get_locations():
 @app.get("/coc-api/locations/{location_id}/rankings/players")
 def get_rankings_players_by_location(location_id: str):
     final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}'
-    return make_request(final_url)
+    response = make_request(final_url)
+    players = response['items']
+    return players
