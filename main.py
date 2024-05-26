@@ -64,6 +64,7 @@ def get_rankings_players_by_location(location_id: str):
     final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}?limit=10'
     response = make_request(final_url)
     players = response['items']
+
     for player in players:
         player_clan = get_player_clan(player['tag'][1:])
         if player_clan is not None:
