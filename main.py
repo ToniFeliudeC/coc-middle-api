@@ -84,9 +84,7 @@ def get_player_clan(player_tag: str):
 
 @app.get("/coc-api/countries")
 def get_countries():
-    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}'
-    response = make_request(final_url)
-    locations = response['items']
+    locations = get_locations()
     countries = [location for location in locations if location['isCountry']]
     return countries
         
