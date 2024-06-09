@@ -61,7 +61,7 @@ def get_locations():
 
 @app.get("/coc-api/locations/{location_id}/rankings/players")
 def get_rankings_players_by_location(location_id: str):
-    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}?limit=10'
+    final_url = f'{BASE_URL}/{LOCATION_ENDPOINT}/{location_id}/{RANKINGS_ENDPOINT}/{PLAYERS_ENDPOINT}?limit=20'
     response = make_request(final_url)
     players = response['items']
 
@@ -73,6 +73,42 @@ def get_rankings_players_by_location(location_id: str):
             except:
                 pass
     return players
+
+@app.get("/coc-api/players/{player_tag}/achievements/home")
+def get_player_home_achievements(player_tag: str):
+    final_url = f'{BASE_URL}/{PLAYERS_ENDPOINT}/%23{player_tag}'
+    player = make_request(final_url)
+
+    if player.get('achievements') is None:
+        return None
+    
+    home_achievements = [achievement for achievement in player['achievements'] if achievement['village'] == 'home']
+
+    return home_achievements
+
+@app.get("/coc-api/players/{player_tag}/achievements/builderbase")
+def get_player_builder_base_achievements(player_tag: str):
+    final_url = f'{BASE_URL}/{PLAYERS_ENDPOINT}/%23{player_tag}'
+    player = make_request(final_url)
+
+    if player.get('achievements') is None:
+        return None
+    
+    builder_base_achievements = [achievement for achievement in player['achievements'] if achievement['village'] == 'builderBase']
+
+    return builder_base_achievements
+
+@app.get("/coc-api/players/{player_tag}/achievements/clancapital")
+def get_player_clan_capital_achievements(player_tag: str):
+    final_url = f'{BASE_URL}/{PLAYERS_ENDPOINT}/%23{player_tag}'
+    player = make_request(final_url)
+
+    if player.get('achievements') is None:
+        return None
+    
+    clan_capital_achievements = [achievement for achievement in player['achievements'] if achievement['village'] == 'clanCapital']
+
+    return clan_capital_achievements        
 
 @app.get("/coc-api/players/{player_tag}/clan")
 def get_player_clan(player_tag: str):
